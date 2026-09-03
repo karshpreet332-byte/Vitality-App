@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifeFlow / VITALITY — Task Management & Physical Activity</title>
+  
+  <!-- Google Fonts: Inter & Playwrite DE LA Guides -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playwrite+DE+LA+Guides&display=swap" rel="stylesheet">
+  
+  <!-- LifeFlow Design System & Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       0. Full-Screen Welcome & Authentication Gate (#auth-screen)
+       ========================================================================== -->
+  <div class="auth-screen-overlay" id="auth-screen">
+    <div class="auth-card">
+      
+      <div class="auth-header">
+        <span class="auth-brand">VITALITY</span>
+        <h2 class="auth-cursive-title">Welcome to LifeFlow</h2>
+        <p class="auth-subtitle">Harmonize your productivity & physical wellness</p>
+      </div>
+
+      <!-- Auth Tab Switcher -->
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab-btn active" data-tab="signup">Sign Up</button>
+        <button type="button" class="auth-tab-btn" data-tab="login">Log In</button>
+      </div>
+
+      <!-- 1. Sign Up Form (New User Onboarding) -->
+      <form id="signup-form" class="auth-form-body">
+        <div id="signup-section">
+          
+          <!-- Requirement 1: User's Name -->
+          <div class="form-group">
+            <label class="form-label" for="signup-name">Full Name *</label>
+            <input type="text" id="signup-name" class="form-input" placeholder="e.g., Alex Morgan" required autocomplete="name">
+          </div>
+
+          <!-- Requirement 2: Date of Birth -->
+          <div class="form-group">
+            <label class="form-label" for="signup-dob">Date of Birth * (For wellness & fitness calibration)</label>
+            <input type="date" id="signup-dob" class="form-input" required max="2018-01-01">
+          </div>
+
+          <!-- Requirement 3: Set Password -->
+          <div class="form-group">
+            <label class="form-label" for="signup-password">Set Password * (Minimum 6 characters)</label>
+            <div class="password-input-wrap">
+              <input type="password" id="signup-password" class="form-input" placeholder="••••••••" required minlength="6" autocomplete="new-password">
+              <button type="button" class="btn-toggle-pass" id="btn-toggle-signup-pass" title="Show/Hide Password" aria-label="Toggle password visibility">👁️</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-auth-submit">Create Account & Get Started ✨</button>
+        </div>
+      </form>
+
+      <!-- 2. Log In Form (Returning User) -->
+      <form id="login-form" class="auth-form-body">
+        <div id="login-section" class="hidden">
+          
+          <div class="form-group">
+            <label class="form-label" for="login-name">Full Name *</label>
+            <input type="text" id="login-name" class="form-input" placeholder="e.g., Alex" required autocomplete="username">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="login-password">Password *</label>
+            <div class="password-input-wrap">
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="btn-toggle-pass" id="btn-toggle-login-pass" title="Show/Hide Password" aria-label="Toggle password visibility">👁️</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-auth-submit">Log In to Dashboard 🚀</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       Main Application Shell (Gated behind Authentication)
+       ========================================================================== -->
+  <div class="app-container hidden" id="app-main-view">
+    
+    <!-- Top Carried-Over Alert Banner (Matching Reference Screenshot 3) -->
+    <div class="carried-over-banner" id="carried-over-banner">
+      <div class="carried-over-content">
+        <span>⚠️ 2 tasks carried over from yesterday</span>
+      </div>
+      <button class="btn-review-banner" id="btn-review-carried-over">Review</button>
+    </div>
+
+    <!-- Top Navigation Bar (Matching Reference Screenshot 2 & 3) -->
+    <header class="app-navbar">
+      <div class="brand-logo">
+        <span class="brand-name">VITALITY</span>
+      </div>
+
+      <nav>
+        <ul class="nav-links">
+          <li class="nav-item"><a class="nav-link" href="#agenda">Agenda</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#tasks">Tasks</a></li>
+          <li class="nav-item"><a class="nav-link" href="#activity">Activity</a></li>
+          <li class="nav-item"><a class="nav-link" href="#history">History</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Streak Flame Icon -->
+        <button class="btn-nav-icon" id="btn-streak-flame" title="7-Day Streak Active">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
+          </svg>
+        </button>
+
+        <!-- Reminders Bell Icon -->
+        <button class="btn-nav-icon" id="btn-bell-reminders" title="Smart Reminders & Overdue Alerts">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="badge-dot"></span>
+        </button>
+
+        <!-- User Profile Avatar with Dropdown -->
+        <div style="position: relative;">
+          <button class="btn-nav-icon" id="btn-user-profile" title="Account Menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>
+
+          <div class="profile-dropdown" id="profile-dropdown">
+            <div class="dropdown-user-info">
+              <span class="dropdown-user-name" id="dropdown-user-name">Alex</span>
+              <span class="dropdown-user-meta" id="dropdown-user-age">32 yrs old</span>
+            </div>
+            <button class="btn-dropdown-logout" id="btn-logout">
+              <span>🔒</span>
+              <span>Logout / Lock</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- End of Day Wrap-Up Trigger Button -->
+        <button class="btn-eod-trigger" id="btn-navbar-eod" title="Open Daily Reflection & Wrap-Up">
+          <span>Wrap Up Day</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Personalized Header & Quick Task Creation Bar (Matching Screenshot 3) -->
+      <div class="page-header-row">
+        <div class="page-title-group">
+          <h1 id="user-greeting-name">Good morning, Alex.</h1>
+          <p>Today's focus: Deep Work & Recovery</p>
+        </div>
+
+        <div class="quick-add-container">
+          <input type="text" 
+                 id="quick-add-input" 
+                 class="quick-add-input" 
+                 placeholder="Add a new task..." 
+                 aria-label="Add a new task">
+          <button class="btn-expand-modal" id="btn-expand-modal" title="Add full metadata (Priority, Subtasks, Due Time)">Details</button>
+          <button class="btn-quick-add" id="btn-quick-add" title="Quick Add Task">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters & View Switcher Bar -->
+      <div class="filter-toolbar">
+        <div class="search-box-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="search-input" placeholder="Search tasks...">
+        </div>
+
+        <div class="category-filter-pills">
+          <button class="filter-pill active" data-category="all">All Categories</button>
+          <button class="filter-pill" data-category="work">💼 Work</button>
+          <button class="filter-pill" data-category="personal">🏠 Personal</button>
+          <button class="filter-pill" data-category="fitness">🏋️ Fitness</button>
+          <button class="filter-pill" data-category="home">🪴 Home</button>
+        </div>
+
+        <div class="view-mode-toggle">
+          <button class="view-btn active" data-view="categories">Categories</button>
+          <button class="view-btn" data-view="chronological">Timeline</button>
+        </div>
+      </div>
+
+      <!-- Dynamic Task Board / Grid Container -->
+      <section id="tasks-view-container">
+        <!-- Rendered via js/tasks.js -->
+      </section>
+
+    </main>
+
+    <!-- Footer with Reset Demo Utility -->
+    <footer style="padding: 24px 36px; text-align: center; border-top: 1px solid rgba(251, 207, 232, 0.06); margin-top: auto;">
+      <p style="font-size: 0.8125rem; color: var(--text-dim);">
+        LifeFlow / VITALITY &bull; 
+        <a href="#" id="btn-reset-sample-data" style="color: var(--pink-accent); text-decoration: underline; margin-left: 6px;">Reset Demo Data</a>
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- ==========================================================================
+       Daily Reflection & Wrap-Up Modal (Faithfully matching Reference Screenshot 1)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="eod-modal" role="dialog" aria-modal="true" aria-labelledby="eod-title">
+    <div class="eod-modal-window">
+      
+      <!-- Modal Header with Playwrite Cursive Font -->
+      <div class="eod-header">
+        <div class="eod-title-wrap">
+          <span class="eod-title-icon">🌅</span>
+          <h2 class="eod-title-text" id="eod-title">Daily Reflection & Wrap-Up</h2>
+        </div>
+        <button class="btn-modal-close" id="btn-close-eod" aria-label="Close modal">✕</button>
+      </div>
+
+      <!-- Today's Scorecard Section -->
+      <div>
+        <h3 class="eod-section-title">📊 Today's Scorecard</h3>
+        <div class="scorecard-grid">
+          <!-- Tasks Box -->
+          <div class="scorecard-box">
+            <span class="scorecard-label">Tasks</span>
+            <span class="scorecard-value pink" id="scorecard-tasks-val">12/15</span>
+            <span class="scorecard-sub" id="scorecard-tasks-sub">↑ 80%</span>
+          </div>
+          <!-- Steps Box -->
+          <div class="scorecard-box">
+            <span class="scorecard-label">Steps</span>
+            <span class="scorecard-value cyan" id="scorecard-steps-val">8,420</span>
+            <span class="scorecard-sub muted" id="scorecard-steps-sub">Goal: 10k</span>
+          </div>
+          <!-- Active Time Box -->
+          <div class="scorecard-box">
+            <span class="scorecard-label">Active Time</span>
+            <span class="scorecard-value pink" id="scorecard-active-val">45m</span>
+            <span class="scorecard-sub" id="scorecard-active-sub">✓ Met</span>
+          </div>
+          <!-- Focus Hours Box -->
+          <div class="scorecard-box">
+            <span class="scorecard-label">Focus Hours</span>
+            <span class="scorecard-value purple" id="scorecard-focus-val">3.5h</span>
+            <span class="scorecard-sub" id="scorecard-focus-sub">↑ +0.5h</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- How Are You Feeling Section -->
+      <div>
+        <h3 class="eod-section-title">😊 How are you feeling?</h3>
+        <div class="feeling-container">
+          <button class="btn-emoji" data-feeling="sleepy" title="Exhausted / Sleepy">😴</button>
+          <button class="btn-emoji" data-feeling="neutral" title="Neutral">😐</button>
+          <button class="btn-emoji selected" data-feeling="smile" title="Happy / Good">🙂</button>
+          <button class="btn-emoji" data-feeling="star" title="Excited / Starry">🤩</button>
+          <button class="btn-emoji" data-feeling="fire" title="On Fire!">🔥</button>
+        </div>
+      </div>
+
+      <!-- Leftover Tasks Section -->
+      <div class="leftover-tray">
+        <div class="leftover-tray-header">
+          <h3 class="eod-section-title">📋 Leftover Tasks</h3>
+          <span class="column-badge" id="eod-leftover-count">3 remaining</span>
+        </div>
+
+        <div id="eod-leftover-list" class="leftover-tray">
+          <!-- Populated dynamically by js/eod-summary.js -->
+        </div>
+
+        <button class="btn-rollover-all" id="btn-rollover-all-eod">
+          <span>⤳</span>
+          <span>Move all remaining to tomorrow</span>
+        </button>
+      </div>
+
+      <!-- Quick Notes Section -->
+      <div>
+        <h3 class="eod-section-title">📝 Quick Notes</h3>
+        <textarea id="eod-notes-input" class="eod-notes-input" placeholder="One win or key reflection from today..."></textarea>
+      </div>
+
+      <!-- Footer Action Buttons -->
+      <div class="eod-footer-actions">
+        <button class="btn-save-draft" id="btn-eod-save-draft">Save Draft</button>
+        <button class="btn-finish-day" id="btn-eod-finish">✓ Finish Day</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       Task Creation & Edit Full Modal
+       ========================================================================== -->
+  <div class="modal-backdrop" id="task-modal" role="dialog" aria-modal="true" aria-labelledby="task-modal-title">
+    <div class="eod-modal-window" style="max-width: 560px;">
+      
+      <div class="eod-header">
+        <h2 class="eod-title-text" id="task-modal-title" style="font-size: 1.375rem; font-family: var(--font-family-base); font-weight: 700;">Create New Task</h2>
+        <button class="btn-modal-close" id="btn-close-task-modal" aria-label="Close modal">✕</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="task-input-title">Task Title *</label>
+        <input type="text" id="task-input-title" class="form-input" placeholder="e.g., Finalize Q3 Budget Report" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="task-input-desc">Description</label>
+        <textarea id="task-input-desc" class="form-textarea" rows="2" placeholder="Add context, specifications, or links..."></textarea>
+      </div>
+
+      <div class="form-row-3">
+        <div class="form-group">
+          <label class="form-label" for="task-select-priority">Priority</label>
+          <select id="task-select-priority" class="form-select">
+            <option value="p1">P1 Urgent</option>
+            <option value="p2" selected>P2 High</option>
+            <option value="p3">P3 Medium</option>
+            <option value="p4">P4 Low</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="task-select-category">Category</label>
+          <select id="task-select-category" class="form-select">
+            <option value="work" selected>💼 Work</option>
+            <option value="personal">🏠 Personal</option>
+            <option value="fitness">🏋️ Fitness</option>
+            <option value="home">🪴 Home</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="task-select-due">Schedule Due</label>
+          <select id="task-select-due" class="form-select">
+            <option value="today" selected>Today</option>
+            <option value="tomorrow">Tomorrow</option>
+            <option value="yesterday">Yesterday (Overdue)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Dynamic Subtasks Builder -->
+      <div class="form-group">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+          <label class="form-label" style="margin-bottom: 0;">Subtasks / Checklist</label>
+          <button type="button" class="btn-add-subtask" id="btn-add-subtask-row">+ Add Subtask</button>
+        </div>
+        <div id="modal-subtasks-container" class="subtasks-builder-tray">
+          <!-- Dynamically added subtask rows -->
+        </div>
+      </div>
+
+      <div class="eod-footer-actions">
+        <button class="btn-save-draft" id="btn-cancel-task-modal">Cancel</button>
+        <button class="btn-finish-day" id="btn-save-task-modal">Save Task</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Dispatcher Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Core JavaScript Modules -->
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/eod-summary.js"></script>
+  <script src="js/reminders.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
