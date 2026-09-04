@@ -1,41 +1,50 @@
-# Vitality-App
 # 🌸 VITALITY — Personal Productivity & Wellness App
 
-> A modern productivity and wellness dashboard designed to help users organize tasks, track daily activities, and maintain a healthy balance between work, personal life, fitness, and home.
+> A modern productivity and wellness application designed to help users organize tasks, manage daily activities, and maintain balance across work, personal life, fitness, and home.
 
 ## 📌 Overview
 
-VITALITY is a personal productivity application that combines task management with wellness-focused organization.
+**VITALITY** is a personal productivity application that brings task management and daily organization into one focused dashboard.
 
-The application provides a centralized dashboard where users can manage their daily tasks, organize activities by category, monitor progress, and review their day.
+The app allows users to organize tasks by category, track completion, manage subtasks, identify overdue work, and view their daily activities through a clean and modern interface.
 
-The interface is designed around a simple idea: **productivity should support wellbeing, not work against it.**
+The project was created with a focus on **productivity, organization, and user experience**.
 
 ## ✨ Features
 
-- 📋 **Task Management** — Add and manage daily tasks
-- 🗂️ **Task Categories** — Organize tasks into Work, Personal, Fitness, and Home
-- 🔍 **Task Search** — Quickly find specific tasks
-- 📊 **Progress Tracking** — Monitor completed and pending tasks
-- ⏰ **Timeline View** — Organize activities throughout the day
-- 📅 **Agenda** — View and plan daily activities
-- 📈 **Activity Tracking** — Review productivity and activity
-- 🕐 **History** — Review previous tasks and activities
-- ⚠️ **Overdue Task Identification** — Highlight tasks that need attention
-- 🔄 **Subtask Tracking** — Break larger tasks into smaller actionable items
-- 🌙 **Modern Dark UI** — Clean, focused interface designed for productivity
+- 🔐 **User Login Interface**
+- 📋 **Task Management**
+- 🗂️ **Task Categorization**
+  - Work
+  - Personal
+  - Fitness
+  - Home
+- 🔍 **Task Search**
+- ✅ **Task Completion Tracking**
+- ⚠️ **Overdue Task Identification**
+- 📊 **Progress Tracking**
+- 📝 **Subtask Management**
+- 📅 **Agenda View**
+- 🕒 **Timeline View**
+- 📈 **Activity Tracking**
+- 📚 **Task History**
+- 🌙 **Modern Dark-Themed Interface**
 
-## 🖥️ Preview
+## 🖥️ App Preview
 
-![VITALITY Dashboard](screenshots/vitality-dashboard.png)
+### 🔐 Login Page
+
+![VITALITY Login Page](Vitality%20app%20login.png)
+
+### 📊 Dashboard
+
+![VITALITY Dashboard](Vitality%20app%20dashboard.png)
 
 ## 🛠️ Technologies Used
 
-- HTML5
-- CSS3
-- JavaScript
-- Responsive Web Design
-- Modular CSS architecture
+- **HTML5** — Application structure
+- **CSS3** — Styling, layout, animations, and visual design
+- **JavaScript** — Interactivity and application functionality
 
 ## 📁 Project Structure
 
@@ -52,8 +61,8 @@ Vitality-App/
 ├── js/
 │   └── JavaScript files
 │
-├── screenshots/
-│   └── vitality-dashboard.png
+├── Vitality app dashboard.png
+├── Vitality app login.png
 │
 ├── index.html
 ├── AGENTS.md
